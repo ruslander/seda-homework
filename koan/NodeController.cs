@@ -5,7 +5,6 @@ namespace Koan
     public sealed class NodeController : IHandle<Message>
     {
         IPublisher _outputBus;
-        QueuedHandler _mainQueue;
 
         public enum NodeState
         {
@@ -39,11 +38,6 @@ namespace Koan
                     .Do(m => _outputBus.Publish(m))
                 .Build(() => (int)_state);
         } 
-
-        public void SetMainQueue(QueuedHandler mainQueue)
-        {
-            _mainQueue = mainQueue;
-        }
 
         void IHandle<Message>.Handle(Message message)
         {

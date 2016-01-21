@@ -9,7 +9,6 @@ namespace Koan
             var outputBus = new InMemoryBus("OutputBus");
             var controller = new NodeController(outputBus);
             var mainQueue = new QueuedHandler(controller, "Main Queue");
-            controller.SetMainQueue(mainQueue);
 
 
             // Hello world service
