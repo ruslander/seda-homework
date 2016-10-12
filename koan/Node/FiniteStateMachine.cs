@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Koan.Messaging;
 
-namespace Koan
+namespace Koan.Node
 {
     public sealed class FiniteStateMachine<TEnum> : IHandle<Message>
         where TEnum : struct

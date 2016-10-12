@@ -1,6 +1,7 @@
 using System;
+using Koan.Messaging;
 
-namespace Koan
+namespace Koan.Node
 {
     public sealed class NodeController : IHandle<Message>
     {

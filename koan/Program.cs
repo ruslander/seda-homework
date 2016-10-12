@@ -1,4 +1,6 @@
 ﻿using System;
+using Koan.Messaging;
+using Koan.Node;
 
 namespace Koan
 {
@@ -6,58 +8,35 @@ namespace Koan
     {
         static void Main(string[] args)
         {
-            var outputBus = new InMemoryBus("OutputBus");
-            var controller = new NodeController(outputBus);
-            var mainQueue = new QueuedHandler(controller, "Main Queue");
+            var bus = new InMemoryBus("OutputBus");
+            var controller = new NodeController(bus);
+            var inputQueue = new QueuedHandler(controller, "Main Queue");
 
 
             // Hello world service
-            var hello = new HelloWorldService(mainQueue);
-            outputBus.Subscribe<SystemMessage.SystemInit>(hello);
-            outputBus.Subscribe<SystemMessage.StartShutdown>(hello);
-            outputBus.Subscribe<HelloWorldMessage.Hi>(hello);
+            var app = new HelloWorldService(inputQueue);
+            bus.Subscribe<SystemMessage.SystemInit>(app);
+            bus.Subscribe<SystemMessage.StartShutdown>(app);
+            bus.Subscribe<HelloWorldMessage.Hi>(app);
 
 
             // TIMER
             var timer = new TimerService(new ThreadBasedScheduler(new RealTimeProvider()));
-            outputBus.Subscribe<TimerMessage.Schedule>(timer);
+            bus.Subscribe<TimerMessage.Schedule>(timer);
 
 
             Console.WriteLine("Starting everything. Press enter to initiate shutdown");
 
-            mainQueue.Start();
+            inputQueue.Start();
 
-            mainQueue.Publish(new SystemMessage.SystemInit());
+            inputQueue.Publish(new SystemMessage.SystemInit());
             Console.ReadLine();
-            mainQueue.Publish(new SystemMessage.StartShutdown());
+            inputQueue.Publish(new SystemMessage.StartShutdown());
             Console.ReadLine();
         }
     }
 
     
-
-    public static class SystemMessage
-    {
-        public class SystemInit : Message{}
-
-        public class SystemStart : Message {}
-
-        public class BecomeShutDown : Message {}
-
-        public class StartShutdown : Message {}
-
-        public class ServiceShutdown : Message
-        {
-            public readonly string ServiceName;
-
-            public ServiceShutdown(string serviceName)
-            {
-                if (string.IsNullOrWhiteSpace(serviceName))
-                    throw new ArgumentOutOfRangeException("serviceName");
-                ServiceName = serviceName;
-            }
-        }
-    }
 
     
 }

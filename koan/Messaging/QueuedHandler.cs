@@ -5,7 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Koan
+namespace Koan.Messaging
 {
     public sealed class QueuedHandler : IHandle<Message>, IPublisher
     {

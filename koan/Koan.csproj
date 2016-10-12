@@ -72,14 +72,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FiniteStateMachine.cs" />
+    <Compile Include="Node\FiniteStateMachine.cs" />
     <Compile Include="HelloWorldService.cs" />
-    <Compile Include="InMemoryBus.cs" />
-    <Compile Include="Message.cs" />
-    <Compile Include="NodeController.cs" />
+    <Compile Include="Messaging\MessageHandler.cs" />
+    <Compile Include="Messaging\InMemoryBus.cs" />
+    <Compile Include="Messaging\Message.cs" />
+    <Compile Include="Node\NodeController.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="QueuedHandler.cs" />
-    <Compile Include="TimerService.cs" />
+    <Compile Include="Messaging\QueuedHandler.cs" />
+    <Compile Include="Node\SystemMessage.cs" />
+    <Compile Include="Node\TimerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

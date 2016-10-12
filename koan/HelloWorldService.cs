@@ -1,14 +1,13 @@
 using System;
+using Koan.Messaging;
+using Koan.Node;
 
 namespace Koan
 {
     sealed class HelloWorldService : 
-        
         IHandle<SystemMessage.SystemInit>,
         IHandle<SystemMessage.StartShutdown>,
         IHandle<HelloWorldMessage.Hi>
-
-
     {
         readonly IPublisher _mainQueue;
         readonly IEnvelope _envelope ;

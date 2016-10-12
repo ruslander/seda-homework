@@ -3,11 +3,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Koan.Messaging;
 
-namespace Koan
+namespace Koan.Node
 {
-    public sealed class TimerService : 
-        IHandle<TimerMessage.Schedule>, IDisposable
+    public sealed class TimerService : IHandle<TimerMessage.Schedule>, IDisposable
     {
         readonly IScheduler _scheduler;
         public TimerService(IScheduler scheduler)

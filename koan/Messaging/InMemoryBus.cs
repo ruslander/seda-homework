@@ -3,8 +3,29 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace Koan
+namespace Koan.Messaging
 {
+    public interface IPublisher
+    {
+        void Publish(Message message);
+    }
+
+    public interface ISubscriber
+    {
+        void Subscribe<T>(IHandle<T> handler) where T : Message;
+        void Unsubscribe<T>(IHandle<T> handler) where T : Message;
+    }
+
+    public interface IHandle<T> where T : Message
+    {
+        void Handle(T message);
+    }
+
+    public interface IBus : IPublisher, ISubscriber
+    {
+        string Name { get; }
+    }
+
     public sealed class InMemoryBus : IBus, IPublisher, ISubscriber, IHandle<Message>
     {
 
