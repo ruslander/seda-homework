@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Koan.Messaging
 {
-    public sealed class QueuedHandler : IHandle<Message>, IPublisher
+    public sealed class NodeQueueHandler : IHandle<Message>, IPublisher
     {
-        readonly IHandle<Message> _consumer;
+        readonly IHandle<Message> _controller;
         readonly ConcurrentQueue<Message> _queue = new ConcurrentQueue<Message>();
 
         Task _thread;
@@ -20,9 +20,9 @@ namespace Koan.Messaging
         readonly CancellationTokenSource _cancel = new CancellationTokenSource();
 
 
-        public QueuedHandler(IHandle<Message> consumer, string name, int waitToStopThreadMs = 10000)
+        public NodeQueueHandler(IHandle<Message> controller, string name, int waitToStopThreadMs = 10000)
         {
-            _consumer = consumer;
+            _controller = controller;
             _name = name;
             _waitToStopThreadMs = waitToStopThreadMs;
         }
@@ -66,7 +66,7 @@ namespace Koan.Messaging
                 {
                     try
                     {
-                        _consumer.Handle(result); 
+                        _controller.Handle(result); 
                     }
                     catch(Exception ex)
                     {

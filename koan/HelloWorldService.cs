@@ -12,6 +12,7 @@ namespace Koan
         readonly IPublisher _mainQueue;
         readonly IEnvelope _envelope ;
         volatile bool _selfDestruct;
+
         public HelloWorldService(IPublisher mainQueue)
         {
             _mainQueue = mainQueue;

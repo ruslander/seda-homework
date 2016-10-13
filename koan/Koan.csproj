@@ -79,7 +79,7 @@
     <Compile Include="Messaging\Message.cs" />
     <Compile Include="Node\NodeController.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Messaging\QueuedHandler.cs" />
+    <Compile Include="Messaging\NodeQueueHandler.cs" />
     <Compile Include="Node\SystemMessage.cs" />
     <Compile Include="Node\TimerService.cs" />
   </ItemGroup>

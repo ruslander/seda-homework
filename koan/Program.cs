@@ -10,14 +10,14 @@ namespace Koan
         {
             var bus = new InMemoryBus("OutputBus");
             var controller = new NodeController(bus);
-            var inputQueue = new QueuedHandler(controller, "Main Queue");
+            var nodeQueue = new NodeQueueHandler(controller, "Main Queue");
 
 
             // Hello world service
-            var app = new HelloWorldService(inputQueue);
-            bus.Subscribe<SystemMessage.SystemInit>(app);
-            bus.Subscribe<SystemMessage.StartShutdown>(app);
-            bus.Subscribe<HelloWorldMessage.Hi>(app);
+            var service = new HelloWorldService(nodeQueue);
+            bus.Subscribe<SystemMessage.SystemInit>(service);
+            bus.Subscribe<SystemMessage.StartShutdown>(service);
+            bus.Subscribe<HelloWorldMessage.Hi>(service);
 
 
             // TIMER
@@ -27,11 +27,11 @@ namespace Koan
 
             Console.WriteLine("Starting everything. Press enter to initiate shutdown");
 
-            inputQueue.Start();
+            nodeQueue.Start();
 
-            inputQueue.Publish(new SystemMessage.SystemInit());
+            nodeQueue.Publish(new SystemMessage.SystemInit());
             Console.ReadLine();
-            inputQueue.Publish(new SystemMessage.StartShutdown());
+            nodeQueue.Publish(new SystemMessage.StartShutdown());
             Console.ReadLine();
         }
     }
